@@ -1,0 +1,35 @@
+<?php
+//验证码
+
+include '../../lib/functions.php';
+
+if (!isset($_SESSION)){
+    session_start();
+    header('Cache-control:private');
+}
+
+$width=65;
+$height=20;
+$image=imagecreate($width,$height);
+
+$bg_color=imagecolorallocate($image,0x33,0x66,0xFF);
+imagefilledrectangle($image,0,0,$width,$height,$bg_color);
+
+$text=random_text(5);
+
+$font=5;
+$x=imagesx($image)/2-strlen($text)*imagefontwidth($font)/2;
+$y=imagesy($image)/2-imagefontheight($font)/2;
+
+//在图上写字
+$fg_color=imagecolorallocate($image,0xFF,0xFF,0xFF);
+imagestring($image,$font,$x,$y,$text,$fg_color);
+
+//保存
+$_SESSION['captcha']=$text;
+
+//输出
+header('Content-type:image/png');
+imagepng($image);
+
+imagedestroy($image);
