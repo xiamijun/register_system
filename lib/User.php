@@ -30,12 +30,12 @@ class User{
     }
 
     //验证用户名
-    public function validateUsername($username){
+    public static function validateUsername($username){
         return preg_match('/^[A-Z0-9]{2,20}$/i',$username);
     }
 
     //验证邮箱
-    public function validateEmailAddr($email){
+    public static function validateEmailAddr($email){
         return filter_var($email,FILTER_VALIDATE_EMAIL);
     }
 
